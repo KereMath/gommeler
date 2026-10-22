@@ -6,6 +6,18 @@
 | `seriler.csv` | Ham seriler: `kume`, `seri`, `zaman`, `deger` |
 | `chronos2_gomme.py` | İki dosyayı betise çıktısından üretir: `python chronos2_gomme.py --kume egitim=<yenidata> --kume test=<yenidata_test>` |
 
+**`gommeler.csv` sütunları:**
+
+| Sütun | Anlamı |
+|---|---|
+| `kume`, `seri` | Eğitim / test ve küme içi sıra numarası. İki dosya bu ikisiyle eşleşir. |
+| `grup`, `taban`, `uzunluk` | Grup, taban türü ve seri uzunluğu |
+| `kayma_sayisi` | Seri içindeki ortalama kayması sayısı |
+| `kayma_konum` | Kırılma indeksleri (0'dan başlar); birden çoksa `;` ile ayrılır |
+| `kayma_buyukluk` | betise'nin kaydettiği kayma büyüklükleri; birden çoksa `;` ile ayrılır |
+| `kayma_yon`, `kayma_yeri` | Yön (yukarı / aşağı / rastgele) ve yer (başta / ortada / sonda) |
+| `g0` … `g767` | Chronos-2 gömmesi |
+
 **Seriler:** betise 0.6.0 eğitim ve test kümelerinden, tek anomalisi ortalama kayması olanlar.
 
 | Grup | Taban |
