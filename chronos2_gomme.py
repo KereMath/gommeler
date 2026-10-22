@@ -19,6 +19,8 @@ Kullanım:
 Çıktı (her küme için):
   veri/gomme_<kume>.npz   gomme (N x 768, float32), degerler (ham seriler art arda), uzunluklar (N)
   veri/meta_<kume>.csv    seri başına betise kayıtları (satır sırası npz ile aynı)
+  veri/gomme_<kume>.csv   gömmeler (satır başına bir seri, g0 ... g767)
+  veri/seriler_<kume>.csv ham seriler (satir, zaman, deger)
 """
 import argparse
 import json
@@ -102,6 +104,12 @@ def main():
         G = gomme(pipe, [znorm(x) for x in ham])
         np.savez(cikti / f"gomme_{ad}.npz", gomme=G, degerler=np.concatenate(ham), uzunluklar=np.array([len(x) for x in ham]))
         meta.to_csv(cikti / f"meta_{ad}.csv", index_label="satir", encoding="utf-8")
+        # Python'suz açmak için CSV: gömmeler (satır başına bir seri, 768 sütun) ve ham seriler (uzun biçim)
+        pd.DataFrame(G, columns=[f"g{j}" for j in range(G.shape[1])]).to_csv(cikti / f"gomme_{ad}.csv", index_label="satir",
+                                                                              float_format="%.7g")
+        pd.DataFrame({"satir": np.repeat(np.arange(len(ham)), [len(x) for x in ham]),
+                      "zaman": np.concatenate([np.arange(len(x)) for x in ham]),
+                      "deger": np.concatenate(ham)}).to_csv(cikti / f"seriler_{ad}.csv", index=False, float_format="%.10g")
         print(ad, len(ham), "seri", round(time.time() - t0), "s", flush=True)
 
 

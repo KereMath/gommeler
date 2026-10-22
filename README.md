@@ -7,9 +7,26 @@
 | `veri/gomme_egitim.npz` | 4.000 seri: `gomme` (4.000 × 768, float32), `degerler` (ham seriler art arda), `uzunluklar` |
 | `veri/gomme_test.npz` | 800 seri, aynı alanlar |
 | `veri/meta_egitim.csv`, `veri/meta_test.csv` | Seri başına betise kayıtları; satır sırası npz ile aynı |
+| `veri/gomme_egitim.csv`, `veri/gomme_test.csv` | Gömmelerin CSV hâli: her satır bir seri, `g0` … `g767` sütunları |
+| `veri/seriler_egitim.csv`, `veri/seriler_test.csv` | Ham serilerin CSV hâli: `satir` (seri), `zaman`, `deger` |
 | `chronos2_gomme.py` | Gömmeleri betise çıktısından üreten betik |
 
-Bir serinin ham değerleri: `degerler[sum(uzunluklar[:i]) : sum(uzunluklar[:i+1])]`.
+Bütün dosyalarda `satir` aynı seriyi gösteriyor: i'inci gömme, i'inci seri ve `meta` dosyasının i'inci satırı aynı seriye ait.
+
+## Dosyaları açma
+
+- **CSV dosyaları:** Excel ya da herhangi bir tablo programıyla açılır.
+- **npz dosyaları:** Python ile açılır:
+
+```python
+import numpy as np
+d = np.load("veri/gomme_egitim.npz")
+gomme = d["gomme"]          # 4.000 x 768: her satır bir serinin gömmesi
+uzunluklar = d["uzunluklar"]
+degerler = d["degerler"]    # ham seriler art arda
+bas = np.concatenate([[0], np.cumsum(uzunluklar)])
+seri_0 = degerler[bas[0]:bas[1]]
+```
 
 ## Seriler
 
